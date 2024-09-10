@@ -1,2 +1,2 @@
-# [ React + TypeScript + Vite ] + [ Node + Express ]
-Cello Image Viewer 
+# Cello Image Viewer
+[ React + TypeScript + Vite ] + [ Node + Express ]
