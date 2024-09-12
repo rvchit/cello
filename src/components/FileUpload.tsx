@@ -3,7 +3,7 @@ import "./FileUpload.css"; // For styling
 
 const FileUpload: React.FC = () => {
   const [fileName, setFileName] = useState<string | null>(null); // State to display selected file name
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null); // Ref to hidden file input element
 
   // Function to handle the custom button click and trigger the hidden file input
   const handleButtonClick = () => {
