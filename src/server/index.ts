@@ -1,13 +1,25 @@
 import express from "express";
-import api from "./api";
+import api from "./fileuploadRoute";
+import multer from "multer";
+import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-app.use("/api", api);
+const upload = multer(); // Middleware to handle multipart form data
 
-// Test route
-app.get("/api/hi", (req, res) => {
-  res.send("Hello World");
-});
+// Enable CORS for all routes
+app.use(cors());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+console.log('AWS Bucket Region:', process.env.AWS_BUCKET_NAME);
+
+
+app.use("/api", api);
+// use api.ts file for all routes starting with /api
+
 
 // start server
 const PORT = process.env.PORT || 3002;
