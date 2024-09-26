@@ -1,0 +1,12 @@
+#zoom-in, #zoom-out, #home, #full-page {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+#zoom-in:hover, #zoom-out:hover, #home:hover, #full-page:hover {
+    background-color: #555;
+}

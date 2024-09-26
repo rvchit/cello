@@ -14,14 +14,17 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.651.1",
+    "@aws-sdk/s3-request-presigner": "^3.654.0",
     "aws-sdk": "^2.1691.0",
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "express": "^4.20.0",
     "multer": "^1.4.5-lts.1",
+    "openseadragon": "^5.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "remult": "^0.27.12",
+    "sharp": "^0.33.5",
     "tsx": "^4.19.0"
   },
   "devDependencies": {
@@ -30,6 +33,7 @@
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.13",
     "@types/multer": "^1.4.12",
+    "@types/openseadragon": "^3.0.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
