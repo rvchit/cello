@@ -12,6 +12,12 @@ const App: React.FC = () => {
 
       {/* Image Viewer component */}
       <ParentComponent />
+      {/* Navigation Bar*/}
+      <NavBar/>
+      {/* File Explorer*/}
+      <FileExplorer />
+      
+      
     </div>
   );
 };
