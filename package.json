@@ -21,6 +21,7 @@
     "express": "^4.20.0",
     "multer": "^1.4.5-lts.1",
     "openseadragon": "^5.0.0",
+    "prisma": "^5.20.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "remult": "^0.27.12",
