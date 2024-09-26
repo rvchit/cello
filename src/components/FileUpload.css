@@ -1,18 +1,7 @@
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-  height: 100vh;
-  text-align: center;
-}
-
 .upload-btn {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 64px; /* Adjusts the space below the NavBar (NavBar is typically 64px tall) */
+  left: 10px; /* Aligns the button to the left */
   padding: 10px 20px;
   background-color: #6265e5;
   color: white;
@@ -21,15 +10,6 @@ body {
   cursor: pointer;
 }
 
-
 .upload-btn:hover {
   color: #f9ffaa;
-}
-
-.title {
-  position: absolute;
-  top: 20px;
-  width: 100%;
-  font-size: 24px;
-  font-weight: bold;
 }
