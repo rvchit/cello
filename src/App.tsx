@@ -2,11 +2,15 @@ import React from "react";
 import FileUpload from "./components/FileUpload";
 import ParentComponent from "./components/ParentViewer"; // Importing ParentComponent from ImageViewer
 import NavBar from "./components/NavBar";
-import FileExplorer from "./components/FileExplorer";
+import ImageViewer from './components/OSDviewer';
+
 
 const App: React.FC = () => {
+  const imageID = "CMU-1-Small-Region"
   return (
-    <div>
+    <div className = "APP">
+      {/*Image Viewer with OpenSeadragon */}
+      <ImageViewer imageId={imageID} />
       {/* Navigation Bar*/}
       <NavBar/>
       
@@ -16,9 +20,8 @@ const App: React.FC = () => {
       {/* Image Viewer component */}
       <ParentComponent />
 
-      {/* File Explorer*/}
-      <FileExplorer />
-      
+      {/* File Explorer
+      <FileExplorer /> */}
       
     </div>
   );
