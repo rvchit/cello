@@ -20,7 +20,7 @@ export default tseslint.config(
     env: {
       browser: true,
       es6: true,
-      "jest": true,
+      jest: true,
       node: true,
       "shared-node-browser": true,
     },

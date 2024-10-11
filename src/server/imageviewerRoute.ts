@@ -44,45 +44,48 @@ router.get("/image/:id/url", async (req: Request, res: Response) => {
 });
 
 // Route to handle dynamic tile loading for both SVS and standard images
-router.get("/tile/:imageId/:level/:x/:y", async (req: Request, res: Response) => {
-  const { imageId, level, x, y } = req.params;
-  const fileType = path.extname(imageId).toLowerCase(); // Get file extension
+router.get(
+  "/tile/:imageId/:level/:x/:y",
+  async (req: Request, res: Response) => {
+    const { imageId, level, x, y } = req.params;
+    const fileType = path.extname(imageId).toLowerCase(); // Get file extension
 
-  try {
-    if (fileType === ".svs") {
-      // Forward the request to the Python microservice for SVS file processing
-      const tileResponse = await axios.get("http://127.0.0.1:5000/tile", {
-        params: {
-          image_id: imageId,
-          level: level,
-          x: x,
-          y: y,
-        },
-        responseType: "arraybuffer",
-      });
+    try {
+      if (fileType === ".svs") {
+        // Forward the request to the Python microservice for SVS file processing
+        const tileResponse = await axios.get("http://127.0.0.1:5000/tile", {
+          params: {
+            image_id: imageId,
+            level: level,
+            x: x,
+            y: y,
+          },
+          responseType: "arraybuffer",
+        });
 
-      // Return the tile from the Python service
-      res.set("Content-Type", "image/jpeg");
-      res.send(tileResponse.data);
-    } else {
-      // Handle non-SVS images directly using Sharp
-      const imagePath = `/path/to/images/${imageId}`;
-      const tileSize = 256;
-      const xPos = parseInt(x, 10) * tileSize;
-      const yPos = parseInt(y, 10) * tileSize;
+        // Return the tile from the Python service
+        res.set("Content-Type", "image/jpeg");
+        res.send(tileResponse.data);
+      } else {
+        // Handle non-SVS images directly using Sharp
+        const imagePath = `/path/to/images/${imageId}`;
+        const tileSize = 256;
+        const xPos = parseInt(x, 10) * tileSize;
+        const yPos = parseInt(y, 10) * tileSize;
 
-      const tile = await sharp(imagePath)
-        .extract({ left: xPos, top: yPos, width: tileSize, height: tileSize })
-        .toFormat("jpeg")
-        .toBuffer();
+        const tile = await sharp(imagePath)
+          .extract({ left: xPos, top: yPos, width: tileSize, height: tileSize })
+          .toFormat("jpeg")
+          .toBuffer();
 
-      res.set("Content-Type", "image/jpeg");
-      res.send(tile);
+        res.set("Content-Type", "image/jpeg");
+        res.send(tile);
+      }
+    } catch (error) {
+      console.error("Error fetching tile:", error);
+      res.status(500).json({ message: "Failed to fetch tile" });
     }
-  } catch (error) {
-    console.error("Error fetching tile:", error);
-    res.status(500).json({ message: "Failed to fetch tile" });
-  }
-});
+  },
+);
 
 export default router;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const FileExplorer: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -10,7 +10,7 @@ const FileExplorer: React.FC = () => {
   return (
     <div>
       <button onClick={toggleExplorer}>
-        {isOpen ? 'Close Explorer' : 'Open Explorer'}
+        {isOpen ? "Close Explorer" : "Open Explorer"}
       </button>
       {isOpen && (
         <div>

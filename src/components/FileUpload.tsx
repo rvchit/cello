@@ -1,5 +1,9 @@
 import React, { useRef, useState } from "react";
-import { initiateUpload, uploadChunk, completeUpload } from "../backend/fileuploadApi";
+import {
+  initiateUpload,
+  uploadChunk,
+  completeUpload,
+} from "../backend/fileuploadApi";
 import "./FileUpload.css"; // Assuming you have some basic styles
 
 const FileUpload: React.FC = () => {
@@ -67,8 +71,16 @@ const FileUpload: React.FC = () => {
         style={{ display: "none" }} // Hide the default file input element
         onChange={handleFileChange} // Handle file selection
       />
-      <button className="upload-btn" onClick={handleButtonClick} disabled={isUploading}>
-        {isUploading ? `Uploading: ${fileName}` : fileName ? `Selected: ${fileName}` : "Choose File"}
+      <button
+        className="upload-btn"
+        onClick={handleButtonClick}
+        disabled={isUploading}
+      >
+        {isUploading
+          ? `Uploading: ${fileName}`
+          : fileName
+            ? `Selected: ${fileName}`
+            : "Choose File"}
       </button>
       {isUploading && (
         <p>
