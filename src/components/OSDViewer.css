@@ -1,0 +1,30 @@
+/* Container for the entire image viewer */
+.image-viewer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Makes the container full height */
+  }
+  
+  /* OpenSeadragon viewer container */
+  .viewer-container {
+    width: 200%;   /* Set the width to 90% of the parent container */
+    height: 100%;  /* Set the height to 80% of the parent container */
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Center the controls */
+  #controls {
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  #zoom-in, #zoom-out, #home, #full-page {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

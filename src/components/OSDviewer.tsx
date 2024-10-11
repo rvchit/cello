@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import OpenSeadragon from 'openseadragon';
-import './ImageViewer.css';
+import './OSDViewer.css';
 
 interface ImageViewerProps {
   imageId: string;
@@ -8,45 +8,51 @@ interface ImageViewerProps {
 
 const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
   const viewerRef = useRef<HTMLDivElement | null>(null);
+  const osdViewer = useRef<OpenSeadragon.Viewer | null>(null);
 
   useEffect(() => {
-    if (viewerRef.current) {
-      const viewer = OpenSeadragon({
-        id: viewerRef.current.id,
-        prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/",
+    if (viewerRef.current && !osdViewer.current) {
+      // Initialize OpenSeadragon viewer
+      osdViewer.current = OpenSeadragon({
+        element: viewerRef.current,
+        prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/", // replace with my own icons
         tileSources: {
-          width: 2220 ,  // Replace with your image width
-          height: 2967, // Replace with your image height
+          width: 2220, // set to variable which is fetched from s3 bucket
+          height: 2967, // set to variable which is fetched from s3 bucket
           tileSize: 256,
-          getTileUrl: async function (level, x, y) {
-            const response = await fetch(`http://localhost:5000/api/tile/${imageId}/${level}/${x}/${y}`);
-            const data = await response.json();
-            return data.tileUrl; // URL for the tile
-          }
+          getTileUrl: function (level, x, y) {
+            // Construct the URL for each tile
+            return `http://localhost:5000/api/tile/${imageId}/${level}/${x}/${y}`;
+          },
         },
         showNavigator: true,
         navigatorPosition: "BOTTOM_RIGHT",
         zoomInButton: "zoom-in",
         zoomOutButton: "zoom-out",
         homeButton: "home",
-        fullPageButton: "full-page"
+        fullPageButton: "full-page",
+        visibilityRatio: 1.0,  // Ensures the image stays centered when zooming out
+        minZoomLevel: 0.5,     // Minimum zoom level
+        maxZoomLevel: 10,      // Maximum zoom level
       });
-
-      return () => {
-        if (viewer) {
-          viewer.destroy();
-        }
-      };
     }
+
+    return () => {
+      // Clean up the OpenSeadragon viewer
+      if (osdViewer.current) {
+        osdViewer.current.destroy();
+        osdViewer.current = null;
+      }
+    };
   }, [imageId]);
 
   return (
     <div className="image-viewer">
-      <div id="openseadragon-viewer" ref={viewerRef} style={{ width: '100%', height: '600px' }}></div>
+      <div id="openseadragon-viewer" ref={viewerRef} className="viewer-container"></div>
       <div id="controls">
         <button id="zoom-in">Zoom In</button>
         <button id="zoom-out">Zoom Out</button>
-        <button id="home">Home</button>
+        <button id="home">Reset</button>
         <button id="full-page">Full Page</button>
       </div>
     </div>

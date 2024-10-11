@@ -1,6 +1,7 @@
 import express from "express";
 import api from "./fileuploadRoute";
 import view from "./imageviewerRoute";
+import osd from "./OSDroute";
 import multer from "multer";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -20,6 +21,7 @@ console.log('AWS Bucket Region:', process.env.AWS_REGION);
 
 app.use("/api", api);
 app.use("/view", view)
+app.use("/osd", osd)
 // use api.ts file for all routes starting with /api
 // use imageviewerRoute.ts file for all routes starting with /view
 

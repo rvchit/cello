@@ -1,6 +1,5 @@
 import React from "react";
 import FileUpload from "./components/FileUpload";
-import ParentComponent from "./components/ParentViewer"; // Importing ParentComponent from ImageViewer
 import NavBar from "./components/NavBar";
 import ImageViewer from './components/OSDviewer';
 
@@ -17,8 +16,6 @@ const App: React.FC = () => {
       {/* File Upload component */}
       <FileUpload />
 
-      {/* Image Viewer component */}
-      <ParentComponent />
 
       {/* File Explorer
       <FileExplorer /> */}

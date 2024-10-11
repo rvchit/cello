@@ -1,2 +1,4 @@
 # Cello Image Viewer
-[ React + TypeScript + Vite ] + [ Node + Express ]
+[ React + TypeScript, Python + Vite ] + [ Node + Express ]
+
+
