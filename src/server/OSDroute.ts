@@ -17,11 +17,10 @@ const s3Client = new S3Client({
 });
 
 // Route to serve pre-signed URLs for tile images
-router.get(
-  "/tile/:imageId/:level/:x/:y",
-  async (req: Request, res: Response) => {
+router.get("/tile/:imageId/:level/:x/:y", async (req: Request, res: Response) => {
     const { imageId, level, x, y } = req.params;
-    const tileKey = `tiles/${imageId}/level_${level}/tile_${x}_${y}.jpg`; // Tile path in the S3 bucket
+    const tileKey = `${imageId}/${level}//${x}_${y}.jpg`; // Tile path in the S3 bucket
+    //check if imageID is the name of the image
 
     try {
       const command = new GetObjectCommand({
@@ -33,27 +32,11 @@ router.get(
       const tileUrl = await getSignedUrl(s3Client, command, {
         expiresIn: 3600,
       });
+      res.send(tileUrl);
 
-      res.json({
-        message: "Tile URL generated successfully",
-        tileUrl,
-      });
-    } catch (error) {
-      if (error instanceof Error) {
+    } catch (error : any) {
         console.error("Error fetching tile from S3:", error.message);
-
-        // Customize the error message based on the error type
-        if (error.name === "NoSuchKey") {
-          return res
-            .status(404)
-            .json({ message: `Tile not found: ${tileKey}` });
-        }
-        return res.status(500).json({ message: error.message });
-      } else {
-        console.error("Unknown error occurred:", error);
-        return res.status(500).json({ message: "Failed to fetch tile" });
       }
-    }
   },
 );
 

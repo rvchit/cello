@@ -7,9 +7,13 @@ import {
 import "./FileUpload.css"; // Assuming you have some basic styles
 
 const FileUpload: React.FC = () => {
+  // Initialize with the default file "CMU-1-Small-Region"
   const [fileName, setFileName] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([
+    "CMU-1-Small-Region",
+  ]); // Preloaded default file
+  const [selectedFile, setSelectedFile] = useState<string | null>(null); // State for selected file
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleButtonClick = () => {
@@ -24,7 +28,6 @@ const FileUpload: React.FC = () => {
       setFileName(file.name);
 
       setIsUploading(true);
-      setUploadProgress(0);
 
       try {
         // Step 1: Initiate the upload and get the uploadId
@@ -33,7 +36,6 @@ const FileUpload: React.FC = () => {
         const chunkSize = 5 * 1024 * 1024; // 5MB per chunk
         const totalChunks = Math.ceil(file.size / chunkSize);
         let uploadedParts: Array<{ ETag: string; PartNumber: number }> = [];
-        let totalUploaded = 0;
 
         // Step 2: Upload each chunk
         for (let i = 0; i < totalChunks; i++) {
@@ -44,23 +46,27 @@ const FileUpload: React.FC = () => {
           // Upload each chunk to the server (API call)
           const { ETag } = await uploadChunk(chunk, file.name, uploadId, i + 1);
           uploadedParts.push({ ETag, PartNumber: i + 1 });
-
-          // Update upload progress
-          totalUploaded += chunk.size;
-          setUploadProgress((totalUploaded / file.size) * 100);
         }
 
         // Step 3: Complete the upload
         await completeUpload(file.name, uploadId, uploadedParts);
         console.log("File uploaded successfully");
+
+        // Add the uploaded file to the list of uploaded files
+        setUploadedFiles(prevFiles => [...prevFiles, file.name]);
+
         alert("File uploaded successfully!");
       } catch (error) {
         console.error("File upload failed:", error);
         alert("File upload failed. Please try again.");
       } finally {
-        setIsUploading(false);
+        setIsUploading(false); // Stop the spinner once the upload is complete
       }
     }
+  };
+
+  const handleFileClick = (file: string) => {
+    setSelectedFile(file); // Set the selected file when clicked
   };
 
   return (
@@ -76,16 +82,36 @@ const FileUpload: React.FC = () => {
         onClick={handleButtonClick}
         disabled={isUploading}
       >
-        {isUploading
-          ? `Uploading: ${fileName}`
-          : fileName
-            ? `Selected: ${fileName}`
-            : "Choose File"}
+        {isUploading ? "Uploading..." : fileName ? `Selected: ${fileName}` : "Choose File"}
+
+        {/* Show spinner when uploading */}
+        {isUploading && <div className="spinner"></div>}
       </button>
-      {isUploading && (
-        <p>
-          Upload Progress: <strong>{uploadProgress.toFixed(2)}%</strong>
-        </p>
+
+      {/* Display list of uploaded files as buttons */}
+      {uploadedFiles.length > 0 && (
+        <div className="uploaded-files">
+          <h3>Uploaded Files</h3>
+          <ul>
+            {uploadedFiles.map((file, index) => (
+              <li key={index}>
+                <button
+                  className={`file-item-btn ${selectedFile === file ? 'selected' : ''}`}
+                  onClick={() => handleFileClick(file)}
+                >
+                  {file}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* View button */}
+      {selectedFile && (
+        <button className="view-btn">
+          View {selectedFile}
+        </button>
       )}
     </div>
   );

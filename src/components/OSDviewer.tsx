@@ -23,7 +23,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
           tileSize: 256,
           getTileUrl: function (level, x, y) {
             // Construct the URL for each tile
-            return `http://localhost:5000/api/tile/${imageId}/${level}/${x}/${y}`;
+            return `http://localhost:3002/osd/tile/${imageId}/${level}/${x}/${y}`;
           },
         },
         showNavigator: true,

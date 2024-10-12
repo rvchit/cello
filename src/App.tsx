@@ -9,8 +9,8 @@ const App: React.FC = () => {
     <div className="APP">
       {/*Image Viewer with OpenSeadragon */}
       <ImageViewer imageId={imageID} />
+      
       {/* Navigation Bar*/}
-      <NavBar />
 
       {/* File Upload component */}
       <FileUpload />

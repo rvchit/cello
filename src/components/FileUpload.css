@@ -1,15 +1,90 @@
-.upload-btn {
+/* Container for the file upload section */
+.file-upload-container {
   position: absolute;
-  top: 64px; /* Adjusts the space below the NavBar (NavBar is typically 64px tall) */
-  left: 10px; /* Aligns the button to the left */
-  padding: 10px 20px;
-  background-color: #6265e5;
+  top: 10px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+}
+
+/* Upload Button Styling */
+.upload-btn {
+  padding: 10px 15px;
+  background-color: #b57beb;
   color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Align spinner next to button text */
+}
+
+.upload-btn:disabled {
+  background-color: #9e9e9e;
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid #b57beb; /* Blue */
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  animation: spin 1s linear infinite;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.uploaded-files h3 {
+  font-size: 16px;
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+/* Uploaded Files List */
+.uploaded-files ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.uploaded-files li {
+  font-size: 11px;
+  background-color: #f9f9f9;
+  padding: 4px;
   border-radius: 5px;
-  border: 1px solid transparent;
+  border: 1px solid #ddd;
+  height: 330px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensure that the button is pushed to the bottom */
+  text-align: left;
   cursor: pointer;
 }
 
-.upload-btn:hover {
-  color: #f9ffaa;
+.uploaded-files li:hover {
+  background-color: #e0e0e0;
+}
+
+/* View button inside file container */
+.view-btn {
+  padding: 5px 5px;
+  margin-top: 15px;
+  background-color: #ffffff;
+  font-size: 12px;
+  color: rgb(0, 0, 0);
+  border: 1px solid #ccc;
+  width: 160px;
+  border-radius: 5px;
+  cursor: pointer;
 }
