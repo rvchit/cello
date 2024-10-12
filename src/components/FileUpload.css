@@ -2,7 +2,7 @@
 .file-upload-container {
   position: absolute;
   top: 10px;
-  left: 20px;
+  left: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -12,6 +12,8 @@
 /* Upload Button Styling */
 .upload-btn {
   padding: 10px 15px;
+  text-align: center;
+  width: 160px;
   background-color: #b57beb;
   color: white;
   border: none;

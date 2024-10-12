@@ -82,7 +82,7 @@ const FileUpload: React.FC = () => {
         onClick={handleButtonClick}
         disabled={isUploading}
       >
-        {isUploading ? "Uploading..." : fileName ? `Selected: ${fileName}` : "Choose File"}
+        {isUploading ? "Uploading..." : fileName ? `- ${fileName}` : "Choose File"}
 
         {/* Show spinner when uploading */}
         {isUploading && <div className="spinner"></div>}
