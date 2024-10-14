@@ -1,6 +1,5 @@
 import { Router, Request, Response } from "express";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -16,28 +15,31 @@ const s3Client = new S3Client({
   },
 });
 
-// Route to serve pre-signed URLs for tile images
+// Route to serve tiles directly from S3
 router.get("/tile/:imageId/:level/:x/:y", async (req: Request, res: Response) => {
-    const { imageId, level, x, y } = req.params;
-    const tileKey = `${imageId}/${level}//${x}_${y}.jpg`; // Tile path in the S3 bucket
-    //check if imageID is the name of the image
+  const { imageId, level, x, y } = req.params;
+  const tileKey = `${imageId}/${level}/${x}_${y}.jpeg`; // Tile path in the S3 bucket
 
-    try {
-      const command = new GetObjectCommand({
-        Bucket: process.env.S3_TILES_BUCKET,
-        Key: tileKey,
-      });
+  try {
+    const command = new GetObjectCommand({
+      Bucket: process.env.S3_TILES_BUCKET,
+      Key: tileKey,
+    });
 
-      // Generate a pre-signed URL for the tile
-      const tileUrl = await getSignedUrl(s3Client, command, {
-        expiresIn: 3600,
-      });
-      res.send(tileUrl);
+    // Send the GetObjectCommand to S3
+    const tileResponse = await s3Client.send(command);
 
-    } catch (error : any) {
-        console.error("Error fetching tile from S3:", error.message);
-      }
-  },
-);
+    // Stream the image data to the client
+    if (tileResponse.Body) {
+      res.setHeader('Content-Type', 'image/jpeg'); // Set appropriate content type
+      (tileResponse.Body as any).pipe(res); // Stream the image directly to the response
+    } else {
+      res.status(404).send("Tile not found");
+    }
+  } catch (error: any) {
+    console.error("Error fetching tile from S3:", error.message);
+    res.status(500).send("Failed to fetch tile");
+  }
+});
 
 export default router;

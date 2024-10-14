@@ -6,7 +6,12 @@ import {
 } from "../backend/fileuploadApi";
 import "./FileUpload.css"; // Assuming you have some basic styles
 
-const FileUpload: React.FC = () => {
+
+interface FileUploadProps {
+  onImageSelect: (imageId: string) => void; // Define the prop type
+}
+
+const FileUpload: React.FC<FileUploadProps> = ({onImageSelect}) => {
   // Initialize with the default file "CMU-1-Small-Region"
   const [fileName, setFileName] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -68,7 +73,11 @@ const FileUpload: React.FC = () => {
   const handleFileClick = (file: string) => {
     setSelectedFile(file); // Set the selected file when clicked
   };
-
+  const handleViewClick = () => {
+    if (selectedFile) {
+      onImageSelect(selectedFile); // Pass the selected file name
+    }
+  }
   return (
     <div className="file-upload-container">
       <input
@@ -109,7 +118,7 @@ const FileUpload: React.FC = () => {
 
       {/* View button */}
       {selectedFile && (
-        <button className="view-btn">
+        <button className="view-btn" onClick={handleViewClick}>
           View {selectedFile}
         </button>
       )}

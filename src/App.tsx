@@ -1,23 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FileUpload from "./components/FileUpload";
-import NavBar from "./components/NavBar";
 import ImageViewer from "./components/OSDviewer";
+import NavBar from "./components/NavBar";
 
 const App: React.FC = () => {
-  const imageID = "CMU-1-Small-Region";
+  const [selectedImageId, setSelectedImageId] = useState<string | undefined>();
+
   return (
-    <div className="APP">
-      {/*Image Viewer with OpenSeadragon */}
-      <ImageViewer imageId={imageID} />
-      
-      {/* Navigation Bar*/}
-
-      {/* File Upload component */}
-      <FileUpload />
-
-      {/* File Explorer
-      <FileExplorer /> */}
-    </div>
+    <Router>
+      <div className="APP">
+        {/* <NavBar /> */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <ImageViewer imageId={selectedImageId} />
+                <FileUpload onImageSelect={setSelectedImageId} />
+              </>
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

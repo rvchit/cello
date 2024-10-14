@@ -1,9 +1,11 @@
+// OSDViewer.tsx
 import React, { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import OpenSeadragon from "openseadragon";
 import "./OSDViewer.css";
 
 interface ImageViewerProps {
-  imageId: string;
+  imageId?: string;
 }
 
 const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
@@ -12,17 +14,15 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
 
   useEffect(() => {
     if (viewerRef.current && !osdViewer.current) {
-      // Initialize OpenSeadragon viewer
       osdViewer.current = OpenSeadragon({
         element: viewerRef.current,
-        prefixUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/", // replace with my own icons
+        prefixUrl: "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/images/",
         tileSources: {
-          width: 2220, // set to variable which is fetched from s3 bucket
-          height: 2967, // set to variable which is fetched from s3 bucket
+          width: 2220,
+          height: 2967,
           tileSize: 256,
-          getTileUrl: function (level, x, y) {
-            // Construct the URL for each tile
+          getTileUrl: (level: number, x: number, y: number): string => {
+            // Construct the tile URL dynamically
             return `http://localhost:3002/osd/tile/${imageId}/${level}/${x}/${y}`;
           },
         },
@@ -32,14 +32,13 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
         zoomOutButton: "zoom-out",
         homeButton: "home",
         fullPageButton: "full-page",
-        visibilityRatio: 1.0, // Ensures the image stays centered when zooming out
-        minZoomLevel: 0.5, // Minimum zoom level
-        maxZoomLevel: 10, // Maximum zoom level
+        visibilityRatio: 1.0,
+        minZoomLevel: 0.5,
+        maxZoomLevel: 10,
       });
     }
 
     return () => {
-      // Clean up the OpenSeadragon viewer
       if (osdViewer.current) {
         osdViewer.current.destroy();
         osdViewer.current = null;
