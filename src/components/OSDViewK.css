@@ -1,0 +1,50 @@
+/* Container for the entire image viewer */
+.image-viewer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure space between viewer and controls */
+    align-items: center;
+    width: 78vw;  /* Full width of the viewport */
+    height: 90vh; /* Take up most of the viewport height */
+    margin-top: 40px;
+    margin-left: 200px; /* Adjust this value to shift the viewer right */
+    box-sizing: border-box; /* Include padding and borders in width/height */
+  }
+  
+  /* OpenSeadragon viewer container */
+  .viewer-container {
+    width: 100%; /* Full width of the container */
+    height: 80vh; /* Take up 80% of the viewport height */
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  /* Center the controls */
+  #controls {
+    margin-top: 10px;
+    text-align: center;
+    width: 100%; /* Full width for controls */
+  }
+  
+  /* Control button styling */
+  #zoom-in,
+  #zoom-out,
+  #home,
+  #full-page {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  #zoom-in:hover,
+  #zoom-out:hover,
+  #home:hover,
+  #full-page:hover {
+    background-color: #e0e0e0;
+  }
+  
