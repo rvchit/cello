@@ -47,4 +47,21 @@
   #full-page:hover {
     background-color: #e0e0e0;
   }
+
+  .zoom-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+  }
+  
+  .zoom-slider {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+  
+  .zoom-level-display {
+    font-size: 14px;
+    color: #333;
+  }
   
