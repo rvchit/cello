@@ -1,89 +1,92 @@
-# Cello Image Viewer
+# Cello- Histogram Viewer
 
-[ React + TypeScript, Python + Vite ] + [ Node + Express ]
-
-Here’s a structured and informative `README.md` that provides context about your project, its setup, usage, and contributions. Feel free to modify specific sections according to your project’s unique features and goals.
+**Cello** is a web-based application designed for visualizing, annotating, and managing histology images. With advanced image processing tools and a user-friendly interface, it helps researchers and medical professionals interact with high-resolution histological images efficiently. Hist-Viewer supports annotation, commenting, and zooming/panning on large images, with secure storage and scalable architecture.
 
 ---
 
-# Hist-Viewer
-
-**Hist-Viewer** is a web-based application designed to facilitate image processing, annotation, and viewing. This project uses modern web technologies, a PostgreSQL database, and integrates with AWS S3 for efficient image handling and storage. The app supports advanced image processing, including tiling large images and serving specific regions dynamically.
-
 ## Table of Contents
 
+- [Project Overview](#project-overview)
+- [Why Use Hist-Viewer?](#why-use-hist-viewer)
 - [Features](#features)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Running the Application](#running-the-application)
 - [Usage](#usage)
-- [API Endpoints](#api-endpoints)
+  - [Toolbar and Tools](#toolbar-and-tools)
+  - [Annotations and Comments](#annotations-and-comments)
+  - [File Directory](#file-directory)
+- [Support](#support)
 - [Contributing](#contributing)
-- [License](#license)
+- [Maintainers](#maintainers)
+
+---
+
+## Project Overview
+
+Hist-Viewer provides an interactive platform to view, annotate, and analyze large histology images, commonly used in pathology and medical research. The project utilizes modern web technologies, scalable database management, and AWS storage to enable efficient and secure handling of histology data.
+
+---
+
+## Why Use Hist-Viewer?
+
+Hist-Viewer offers specialized tools for professionals in medical and scientific research, enhancing the workflow for handling large, complex images. Key benefits include:
+
+- Efficient image loading and dynamic tiling, which supports zoom and pan functions.
+- User-friendly interface with commenting and annotation tools for collaborative research.
+- Integration with AWS S3 for secure image storage and retrieval.
+- Scalable architecture, compatible with PostgreSQL and Prisma ORM for database operations.
 
 ---
 
 ## Features
 
-- **Dynamic Image Tiling**: Efficiently handle large images with dynamic tile loading to support zooming and panning.
-- **AWS S3 Integration**: Store and fetch images securely with signed URLs.
-- **Advanced Image Processing**: Use `sharp` for real-time image extraction, resizing, and format conversion.
-- **Flexible Database Management**: Prisma ORM integration with PostgreSQL for scalable database operations.
-- **SVS Image Processing Support**: Integrate with a Python microservice for handling SVS file formats.
+- **Dynamic Image Tiling**: Load large images in tiles to enable smooth zoom and pan functionality.
+- **Annotation Tools**: Includes tools for adding text, shapes, and drawings on images with adjustable coordinates to support zoomed-in views.
+- **Commenting System**: View and add comments linked to specific image coordinates.
+- **File Management**: Easily manage uploaded images via a file directory view.
+- **AWS S3 Integration**: Securely store and access images via signed URLs.
+- **Database Support**: Prisma ORM integration with PostgreSQL for efficient database management.
 
-## Project Structure
+---
 
-```
-hist-viewer/
-├── prisma/              # Prisma schema and migrations
-├── src/
-│   ├── backend/         # Backend API and service code
-│   ├── components/      # Frontend components for UI
-│   ├── server/          # Server setup and API endpoints
-│   └── tests/           # Backend and frontend tests
-├── .env                 # Environment configuration
-├── .eslintrc            # ESLint configuration
-├── jest.config.cjs      # Jest configuration for testing
-├── tsconfig.json        # TypeScript configuration
-└── README.md            # Project documentation
-```
+## Getting Started
 
-## Prerequisites
+### Prerequisites
+
+Ensure the following software is installed on your machine:
 
 - **Node.js**: Version 14 or higher
 - **npm**: Version 6 or higher
 - **PostgreSQL**: Version 12 or higher
-- **AWS Account**: S3 bucket with appropriate permissions
-- **Python 3.x** (for the SVS image processing microservice)
+- **AWS Account**: For setting up an S3 bucket
+- **Python 3.x**: Required for advanced SVS image processing (if applicable)
 
-## Installation
+### Installation
 
 1. **Clone the Repository**:
-
    ```bash
-   git clone https://github.com/kashkarthik/hist-viewer.git (fork)
+   git clone https://github.com/rvchit/cello.git
    cd hist-viewer
    ```
 
 2. **Install Dependencies**:
-
    ```bash
    npm install
    ```
 
 3. **Set Up the Database**:
-   - Ensure PostgreSQL is running, and create a database for the project.
+   - Ensure PostgreSQL is running and create a database for the project.
    - Run Prisma migrations to set up the database schema:
-
      ```bash
      npx prisma migrate dev --name init
      ```
 
-## Configuration
+### Configuration
 
-1. **Environment Variables**:
-   Create a `.env` file in the root directory with the following:
+1. **Environment Variables**: Create a `.env` file in the root directory with the following configuration:
 
    ```plaintext
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/histviewer"
@@ -94,51 +97,71 @@ hist-viewer/
    ```
 
 2. **Generate Prisma Client**:
-
    ```bash
    npx prisma generate
    ```
 
-## Usage
+### Running the Application
 
 1. **Start the Development Server**:
-
    ```bash
    npm run dev
    ```
-
 2. **Access Prisma Studio** (for viewing and editing database records):
-
    ```bash
    npx prisma studio
    ```
-
 3. **Run Tests**:
-
    ```bash
    npm test
    ```
 
-## API Endpoints
+---
 
-- **Fetch Image URL**: `GET /image/:id/url`
-  - Fetches a signed URL to access an image stored in S3.
-  
-- **Dynamic Tile Loading**: `GET /tile/:imageId/:level/:x/:y`
-  - Loads a specific tile of an image for efficient zooming and panning.
+## Usage
+
+### Toolbar and Tools
+
+- **Text Tool**: Add text annotations to selected coordinates on the image.
+- **Draw Tool**: Draw freeform annotations.
+- **Shape Tool**: Draw rectangular shapes and other forms for marking areas of interest. Coordinates of the shapes will automatically scale with zoom.
+
+### Annotations and Comments
+
+Hist-Viewer allows users to add comments to specific regions on the image. Annotations and comments are displayed in a sidebar to the right, allowing users to review or delete them as needed.
+
+### File Directory
+
+The **File Directory** section provides a list of uploaded images and options to select and load each for viewing and annotation.
+
+---
+
+## Support
+
+If you have questions or need help with Hist-Viewer, please use one of the following resources:
+
+- **GitHub Issues**: Open a [new issue](https://github.com/rvchit/cello /issues) to report bugs or request features.
+- **Documentation**: Refer to this README and in-line documentation within the codebase.
+
+---
 
 ## Contributing
 
-We welcome contributions! Please follow these steps to contribute:
+We welcome contributions to Hist-Viewer! To contribute:
 
-1. Fork the repository.
+1. **Fork** the repository.
 2. Create a new branch (`git checkout -b feature/YourFeature`).
-3. Make your changes and commit (`git commit -m 'Add some feature'`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
 4. Push to the branch (`git push origin feature/YourFeature`).
 5. Create a pull request.
 
-Please ensure all tests pass before submitting your PR.
+Please ensure all tests pass before submitting your pull request.
 
-## License
+---
+
+## Maintainers
+
+- **Kaushik Karthikeyan** - Project Maintainer
+- **Rachit Bisht** - Project Maintainer
 
 
