@@ -1,0 +1,40 @@
+/* src/index.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background: #f3f3f3;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background: #f9f9f9;
+    overflow-y: auto;
+  }
+  
+  .comment-section, .file-directory {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+  }
+  
+  .image-viewer {
+    position: relative;
+    flex: 1;
+    background: #eee;
+  }
+  
