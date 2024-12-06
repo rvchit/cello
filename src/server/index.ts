@@ -5,6 +5,8 @@ import osd from "./OSDroute";
 import multer from "multer";
 import cors from "cors";
 import dotenv from "dotenv";
+import authRoutes from "../backend/authk";
+
 
 dotenv.config();
 
@@ -21,6 +23,8 @@ console.log("AWS Bucket Region:", process.env.AWS_REGION);
 app.use("/api", api);
 app.use("/view", view);
 app.use("/osd", osd);
+app.use("/api/auth", authRoutes); // Register the login route
+
 // use api.ts file for all routes starting with /api
 // use imageviewerRoute.ts file for all routes starting with /view
 
