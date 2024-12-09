@@ -3,7 +3,7 @@ import {
   initiateUpload,
   uploadChunk,
   completeUpload,
-} from "../backend/fileuploadApi";
+} from "../api/fileuploadApi";
 import "./FileUpload.css"; // Assuming you have some basic styles
 
 

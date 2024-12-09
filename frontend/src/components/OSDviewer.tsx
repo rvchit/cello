@@ -29,7 +29,8 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
           height: 2967,
           tileSize: 256,
           getTileUrl: (level: number, x: number, y: number): string => {
-            return `http://localhost:3002/osd/tile/${imageId}/${level}/${x}/${y}`;
+            const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:4001";
+            return `${backendUrl}/osd/tile/${imageId}/${level}/${x}/${y}`;
           },
         },
         showNavigator: true,

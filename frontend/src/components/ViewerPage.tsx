@@ -1,7 +1,7 @@
 import React from "react";
 import { Annotorious } from "@annotorious/react";
-import ImageViewer from "../components/OSDviewer";
-import FileUpload from "../components/FileUpload";
+import ImageViewer from "./OSDviewer";
+import FileUpload from "./FileUpload";
 import "@annotorious/react/annotorious-react.css";
 
 interface ViewerPageProps {

@@ -6,21 +6,30 @@ const RegisterPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // Set the backend URL with a fallback to localhost
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:4001";
+  
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:3002/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await fetch(`${backendUrl}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (response.ok) {
-      alert("Registration successful! Please log in.");
-      navigate("/login");
-    } else {
-      const error = await response.json();
-      alert(error.message || "Registration failed.");
+      if (response.ok) {
+        alert("Registration successful! Please log in.");
+        navigate("/login");
+      } else {
+        const error = await response.json();
+        alert(error.message || "Registration failed.");
+      }
+    } catch (err) {
+      console.error("Error during registration:", err);
+      alert("Something went wrong. Please try again.");
     }
   };
 

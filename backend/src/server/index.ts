@@ -1,11 +1,11 @@
 import express from "express";
-import api from "./fileuploadRoute";
-import view from "./imageviewerRoute";
-import osd from "./OSDroute";
+import api from "./fileuploadRoute.js";
+import view from "./imageviewerRoute.js";
+import osd from "./OSDroute.js";
 import multer from "multer";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRoutes from "../backend/authk";
+import authRoutes from "../backend/authk.js";
 
 
 dotenv.config();
@@ -29,7 +29,7 @@ app.use("/api/auth", authRoutes); // Register the login route
 // use imageviewerRoute.ts file for all routes starting with /view
 
 // start server
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 4001;
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
