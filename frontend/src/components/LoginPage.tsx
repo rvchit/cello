@@ -10,11 +10,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // Set the backend URL with a fallback to localhost
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:4001";
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3002/api/auth/login", {
+      const response = await fetch(`${backendUrl}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),

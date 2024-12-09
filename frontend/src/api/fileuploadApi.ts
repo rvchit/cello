@@ -22,7 +22,8 @@ export const uploadChunk = async (
   formData.append("partNumber", partNumber.toString());
   formData.append("uploadId", uploadId);
 
-  const response = await axios.post("/api/upload-part", formData);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:4001";
+  const response = await axios.post('${backendUrl}/api/upload-part', formData);
   return response.data; // { ETag: "some-etag" }
 };
 

@@ -4,7 +4,7 @@ import FileUpload from "./components/FileUpload";
 import ImageViewer from "./components/OSDviewer";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
-import ViewerPage from "./server/ViewerPage";
+import ViewerPage from "./components/ViewerPage";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // Track login status

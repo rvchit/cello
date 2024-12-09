@@ -1,0 +1,33 @@
+{
+    "name": "cello-frontend",
+    "private": true,
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@annotorious/openseadragon": "^3.0.15",
+        "@annotorious/react": "^3.0.19",
+        "@aws-sdk/client-s3": "^3.651.1",
+        "@aws-sdk/s3-request-presigner": "^3.654.0",
+        "@emotion/react": "^11.13.3",
+        "@emotion/styled": "^11.13.0",
+        "@mui/icons-material": "^6.1.1",
+        "@mui/material": "^6.1.1",
+        "axios": "^1.7.7",
+        "openseadragon": "^5.0.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^6.27.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
+        "@types/react-router-dom": "^5.3.3",
+        "@vitejs/plugin-react": "^4.3.4",
+        "typescript": "^5.5.3",
+        "vite": "^6.0.3"
+    }
+}
