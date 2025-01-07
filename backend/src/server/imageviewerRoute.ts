@@ -8,7 +8,6 @@ const sharp = require("sharp");
 // import sharp from "sharp";
 import axios from "axios";
 import path from "path";
-import fs from "fs";
 import dotenv from "dotenv";
 
 dotenv.config();

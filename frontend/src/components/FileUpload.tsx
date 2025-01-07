@@ -4,15 +4,12 @@ import {
   uploadChunk,
   completeUpload,
 } from "../api/fileuploadApi";
-import "./FileUpload.css"; // Assuming you have some basic styles
-
 
 interface FileUploadProps {
   onImageSelect: (imageId: string) => void; // Define the prop type
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({onImageSelect}) => {
-  // Initialize with the default file "CMU-1-Small-Region"
+const FileUpload: React.FC<FileUploadProps> = ({ onImageSelect }) => {
   const [fileName, setFileName] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([
@@ -37,10 +34,9 @@ const FileUpload: React.FC<FileUploadProps> = ({onImageSelect}) => {
       try {
         // Step 1: Initiate the upload and get the uploadId
         const { uploadId } = await initiateUpload(file.name);
-
         const chunkSize = 5 * 1024 * 1024; // 5MB per chunk
         const totalChunks = Math.ceil(file.size / chunkSize);
-        let uploadedParts: Array<{ ETag: string; PartNumber: number }> = [];
+        const uploadedParts: Array<{ ETag: string; PartNumber: number }> = []; // Changed to const
 
         // Step 2: Upload each chunk
         for (let i = 0; i < totalChunks; i++) {
@@ -58,7 +54,7 @@ const FileUpload: React.FC<FileUploadProps> = ({onImageSelect}) => {
         console.log("File uploaded successfully");
 
         // Add the uploaded file to the list of uploaded files
-        setUploadedFiles(prevFiles => [...prevFiles, file.name]);
+        setUploadedFiles((prevFiles) => [...prevFiles, file.name]);
 
         alert("File uploaded successfully!");
       } catch (error) {
@@ -73,11 +69,13 @@ const FileUpload: React.FC<FileUploadProps> = ({onImageSelect}) => {
   const handleFileClick = (file: string) => {
     setSelectedFile(file); // Set the selected file when clicked
   };
+
   const handleViewClick = () => {
     if (selectedFile) {
       onImageSelect(selectedFile); // Pass the selected file name
     }
-  }
+  };
+
   return (
     <div className="file-upload-container">
       <input
@@ -92,27 +90,27 @@ const FileUpload: React.FC<FileUploadProps> = ({onImageSelect}) => {
         disabled={isUploading}
       >
         {isUploading ? "Uploading..." : fileName ? `- ${fileName}` : "Choose File"}
-
-        {/* Show spinner when uploading */}
-        {isUploading && <div className="spinner"></div>}
+        {isUploading && <div className="spinner"></div>} {/* Show spinner */}
       </button>
 
       {/* Display list of uploaded files as buttons */}
       {uploadedFiles.length > 0 && (
-        <div className="uploaded-files">
-          <h3>Uploaded Files</h3>
-          <ul>
+        <div className="uploaded-files-container">
+          <h3 className="uploaded-files-header">Uploaded Files</h3>
+          <ol className="uploaded-files-list">
             {uploadedFiles.map((file, index) => (
               <li key={index}>
                 <button
-                  className={`file-item-btn ${selectedFile === file ? 'selected' : ''}`}
+                  className={`file-item-btn ${
+                    selectedFile === file ? "selected" : ""
+                  }`}
                   onClick={() => handleFileClick(file)}
                 >
                   {file}
                 </button>
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       )}
 

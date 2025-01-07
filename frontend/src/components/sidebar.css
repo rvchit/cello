@@ -1,0 +1,126 @@
+/* Sidebar container */
+.sidebar-container {
+    width: 250px; /* Fixed width for the sidebar */
+    height: 100vh; /* Full height of the viewport */
+    position: fixed; /* Locks the sidebar to the left */
+    top: 0;
+    left: 0;
+    background-color: #898686; /* Light background */
+    border-right: 1px solid #ddd; /* Optional border */
+    padding: 10px;
+    box-sizing: border-box; /* Include padding in width/height */
+    overflow-y: auto; /* Scrollable if content overflows */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  }
+  
+  /* Section inside the sidebar */
+  .sidebar-section {
+    margin-bottom: 20px;
+  }
+  
+  /* Headings in the sidebar */
+  .sidebar-section h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Button styling for file items */
+  .file-item-btn {
+    width: 100%; /* Full width button */
+    padding: 8px;
+    margin-bottom: 5px;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .file-item-btn:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .file-item-btn.selected {
+    background-color: #d1e7ff; /* Light blue for selected state */
+    border-color: #007bff; /* Blue border for selected state */
+  }
+  
+  /* View button styling */
+  .view-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .view-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  /* Upload button styling */
+  .upload-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .upload-btn:disabled {
+    background-color: #9e9e9e; /* Gray when disabled */
+    cursor: not-allowed;
+  }
+  
+  .upload-btn:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Logo section */
+.logo-container {
+    display: flex;
+    justify-content: center; /* Center the logo horizontally */
+    margin-bottom: 20px; /* Add spacing below the logo */
+  }
+  
+  .sidebar-logo {
+    max-width: 70%; /* Ensure the logo fits within the container */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 100%; /* Optional: Set a maximum height for the logo */
+  }
+
+  /* uploaded files container */
+  .uploaded-files-container {
+  border: 1px solid #ddd; /* Add a light border around the container */
+  border-radius: 5px; /* Round the corners */
+  padding: 10px; /* Add some padding inside the container */
+  margin-top: 10px; /* Add spacing above the container */
+  background-color: #f9f9f9; /* Light background for better visibility */
+}
+
+.uploaded-files-header {
+  margin-top: 0; /* Reset all margins */
+  padding: 0; /* Reset all padding */
+  margin-bottom: 12px; /* Space between header and list */
+  font-size: 15px; /* Adjust font size */
+  color: #333; /* Header text color */
+}
+
+.uploaded-files-list {
+  list-style: none; /* Remove bullets/numbers */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+.uploaded-files-list li {
+  margin: 8px 0; /* Add space between items */
+}
+
