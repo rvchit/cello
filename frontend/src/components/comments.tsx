@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./Comments.css"; // Add styles for comments if needed
+import "./comments.css"; // Add styles for comments if needed
 
 interface CommentsProps {
   imageId?: string; // The ID of the currently selected image
