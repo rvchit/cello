@@ -1,4 +1,4 @@
-# Cello- Histogram Viewer
+# Cello- Histology Viewer
 
 **Cello** is a web-based application designed for visualizing, annotating, and managing histology images. With advanced image processing tools and a user-friendly interface, it helps researchers and medical professionals interact with high-resolution histological images efficiently. Hist-Viewer supports annotation, commenting, and zooming/panning on large images, with secure storage and scalable architecture.
 
