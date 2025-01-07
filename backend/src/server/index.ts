@@ -2,7 +2,6 @@ import express from "express";
 import api from "./fileuploadRoute.js";
 import view from "./imageviewerRoute.js";
 import osd from "./OSDroute.js";
-import multer from "multer";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "../backend/authk.js";
@@ -11,7 +10,7 @@ import authRoutes from "../backend/authk.js";
 dotenv.config();
 
 const app = express();
-const upload = multer(); // Middleware to handle multipart form data
+//const upload = multer(); // Middleware to handle multipart form data
 
 // Enable CORS for all routes
 app.use(cors());

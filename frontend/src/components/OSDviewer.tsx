@@ -1,22 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import OpenSeadragon from "openseadragon";
-import { createOSDAnnotator, OpenSeadragonAnnotator } from "@annotorious/openseadragon";
+import { createOSDAnnotator, ImageAnnotation, OpenSeadragonAnnotator } from "@annotorious/openseadragon";
+import axios from "axios";
 import "./OSDViewer.css";
 
 interface ImageViewerProps {
   imageId?: string;
 }
 
-const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
+type ImageAnnotationWithBody = ImageAnnotation & {
+  body?: Array<{ type: string; value: string }>;
+};
+
+const OSDViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
   const viewerRef = useRef<HTMLDivElement | null>(null); // Ref for OpenSeadragon container
   const osdViewer = useRef<OpenSeadragon.Viewer | null>(null); // Ref for OpenSeadragon instance
   const annotatorRef = useRef<OpenSeadragonAnnotator | null>(null); // Ref for Annotorious annotator instance
-  const [selectedAnnotation, setSelectedAnnotation] = useState<any | null>(null); // State for selected annotation
-  const [activeButton, setActiveButton] = useState<string | null>(null); // State for active button
   const [popupVisible, setPopupVisible] = useState(false); // State for showing comment popup
   const [comment, setComment] = useState(""); // State for user comments
-  const [currentAnnotation, setCurrentAnnotation] = useState<any | null>(null); // Current annotation being created
-  const [comments, setComments] = useState<{ id: string; text: string }[]>([]); // List of saved comments
+  const [currentAnnotation, setCurrentAnnotation] = useState<ImageAnnotationWithBody | null>(null); // Current annotation being created
 
   useEffect(() => {
     if (viewerRef.current && !osdViewer.current) {
@@ -42,27 +44,13 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
       });
 
       // Create Annotorious Annotator
-      annotatorRef.current = createOSDAnnotator(osdViewer.current, {
-        theme: "light", // Options: 'light', 'dark', or 'auto'
-      });
+      annotatorRef.current = createOSDAnnotator(osdViewer.current);
 
       // Add Event Listeners
       annotatorRef.current.on("createAnnotation", (annotation) => {
         console.log("Annotation created:", annotation);
         setCurrentAnnotation(annotation); // Save the annotation
         setPopupVisible(true); // Show the comment popup
-      });
-
-      annotatorRef.current.on("updateAnnotation", (annotation, previous) => {
-        console.log("Annotation updated:", annotation, previous);
-      });
-
-      annotatorRef.current.on("deleteAnnotation", (annotation) => {
-        console.log("Annotation deleted:", annotation);
-        if (selectedAnnotation?.id === annotation.id) {
-          setSelectedAnnotation(null); // Clear selected annotation if deleted
-        }
-        setComments((prevComments) => prevComments.filter((c) => c.id !== annotation.id)); // Remove comment
       });
     }
 
@@ -75,36 +63,42 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
     };
   }, [imageId]);
 
-   // Save the comment to the annotation and list
-   const saveComment = () => {
+  // Save the comment to the backend and update the annotation
+  const saveComment = async () => {
     if (annotatorRef.current && currentAnnotation) {
-      const updatedAnnotation = {
-        ...currentAnnotation,
-        body: [
-          ...(currentAnnotation.body || []),
-          {
-            type: "TextualBody",
-            value: comment,
-          },
-        ],
-      };
+      try {
+        // Save the comment to the backend
+        // CHANGE this to await a backend function in /annotationsRoute
+        const response = await axios.post("/comments", {
+          imageId,
+          annotationId: currentAnnotation.id,
+          comment,
+        });
 
-      annotatorRef.current.updateAnnotation(updatedAnnotation);
-      console.log("Annotation updated with comment:", updatedAnnotation);
+        console.log("Comment saved:", response.data);
 
-      // Add comment to the list
-      setComments((prevComments) => [
-        ...prevComments,
-        { id: updatedAnnotation.id, text: comment },
-      ]);
+        // Update the annotation with the comment
+        const updatedAnnotation = {
+          ...currentAnnotation,
+          body: [
+            ...(currentAnnotation?.body || []),
+            { type: "TextualBody", value: comment },
+          ],
+        };
 
-      setComment("");
-      setCurrentAnnotation(null);
-      setPopupVisible(false);
+        annotatorRef.current.updateAnnotation(updatedAnnotation);
+        console.log("Annotation updated with comment:", updatedAnnotation);
+
+        setComment("");
+        setCurrentAnnotation(null);
+        setPopupVisible(false);
+      } catch (error) {
+        console.error("Error saving comment:", error);
+      }
     }
   };
 
-  // Cancel the comment
+  // Cancel the comment creation
   const cancelComment = () => {
     setComment("");
     setCurrentAnnotation(null);
@@ -113,75 +107,17 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
 
   // Delete Selected Annotation
   const deleteSelectedAnnotation = () => {
-    if (annotatorRef.current && selectedAnnotation) {
-      annotatorRef.current.removeAnnotation(selectedAnnotation.id);
-      console.log("Deleted annotation:", selectedAnnotation.id);
-      setSelectedAnnotation(null);
-      setActiveButton(null); // Clear active button on deletion
+    if (annotatorRef.current && currentAnnotation) {
+      annotatorRef.current.removeAnnotation(currentAnnotation.id);
+      console.log("Deleted annotation:", currentAnnotation.id);
+      setCurrentAnnotation(null);
     } else {
       console.log("No annotation selected for deletion.");
     }
   };
 
-  // Toggle Drawing Mode
-  const toggleDrawingTool = () => {
-    if (annotatorRef.current) {
-      const isEnabled = annotatorRef.current.isDrawingEnabled();
-      annotatorRef.current.setDrawingEnabled(!isEnabled);
-      setActiveButton(isEnabled ? null : "drawing");
-      console.log(`Drawing Tool ${!isEnabled ? "Enabled" : "Disabled"}`);
-    }
-  };
-
-  // Set Rectangle Tool
-  const setRectangleTool = () => {
-    if (annotatorRef.current) {
-      annotatorRef.current.setDrawingTool("rectangle");
-      setActiveButton("rectangle");
-      console.log("Rectangle drawing tool set.");
-    }
-  };
-
-  // Set Polygon Tool
-  const setPolygonTool = () => {
-    if (annotatorRef.current) {
-      annotatorRef.current.setDrawingTool("polygon");
-      setActiveButton("polygon");
-      console.log("Polygon drawing tool set.");
-    }
-  };
-
-  // Select an Annotation
-  const selectAnnotation = () => {
-    if (annotatorRef.current) {
-      const selected = annotatorRef.current.getSelected();
-      if (selected.length > 0) {
-        console.log("Selected annotation:", selected[0]);
-        setSelectedAnnotation(selected[0]);
-        setActiveButton("select"); // Set "Select" button as active
-      } else {
-        console.log("No annotation selected.");
-        setSelectedAnnotation(null);
-        setActiveButton(null); // Clear active button if no selection
-      }
-    }
-  };
-
-  
   return (
     <div className="image-viewer-container">
-      <div className="comments-sidebar">
-        <h5>Comments</h5>
-        {comments.length === 0 ? (
-          <p></p>
-        ) : (
-          <ul>
-            {comments.map((c) => (
-              <li key={c.id}>{c.text}</li>
-            ))}
-          </ul>
-        )}
-      </div>
       <div className="image-viewer">
         <div
           id="openseadragon-viewer"
@@ -189,31 +125,19 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
           className="viewer-container"
         ></div>
         <div id="controls">
-          <button
-            className={activeButton === "drawing" ? "active" : ""}
-            onClick={toggleDrawingTool}
-          >
-            Drawing Tool
+          <button onClick={() => annotatorRef.current?.setDrawingEnabled(true)}>
+            Enable Drawing
           </button>
-          <button
-            className={activeButton === "rectangle" ? "active" : ""}
-            onClick={setRectangleTool}
-          >
+          <button onClick={() => annotatorRef.current?.setDrawingEnabled(false)}>
+            Disable Drawing
+          </button>
+          <button onClick={() => annotatorRef.current?.setDrawingTool("rectangle")}>
             Rectangle
           </button>
-          <button
-            className={activeButton === "polygon" ? "active" : ""}
-            onClick={setPolygonTool}
-          >
+          <button onClick={() => annotatorRef.current?.setDrawingTool("polygon")}>
             Polygon
           </button>
-          <button
-            className={activeButton === "select" ? "active" : ""}
-            onClick={selectAnnotation}
-          >
-            Select
-          </button>
-          <button onClick={deleteSelectedAnnotation}>Delete</button>
+          <button onClick={deleteSelectedAnnotation}>Delete Annotation</button>
         </div>
       </div>
 
@@ -234,4 +158,4 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ imageId }) => {
   );
 };
 
-export default ImageViewer;
+export default OSDViewer;

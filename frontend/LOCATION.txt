@@ -1,1 +1,0 @@
-"https://github.com/rvchit/cello/releases/tag/v0.3"

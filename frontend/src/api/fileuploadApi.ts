@@ -2,7 +2,12 @@ import axios from "axios";
 
 // Initiate the upload, getting an uploadId
 export const initiateUpload = async (fileName: string) => {
-  const response = await axios.post("/api/start-upload", {
+  //console.log("initiated")
+  
+  // CHANGE FROM LOCAL HOST TO PROD
+  const backendUrl = "http://localhost:4001";
+
+  const response = await axios.post(`${backendUrl}/api/start-upload`, {
     fileName,
     fileType: "application/octet-stream",
   });
@@ -22,8 +27,9 @@ export const uploadChunk = async (
   formData.append("partNumber", partNumber.toString());
   formData.append("uploadId", uploadId);
 
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:4001";
-  const response = await axios.post('${backendUrl}/api/upload-part', formData);
+  // CHANGE FROM LOCAL HOST TO PROD
+  const backendUrl = "http://localhost:4001";
+  const response = await axios.post(`${backendUrl}/api/upload-part`, formData);
   return response.data; // { ETag: "some-etag" }
 };
 
@@ -33,7 +39,9 @@ export const completeUpload = async (
   uploadId: string,
   parts: Array<{ ETag: string; PartNumber: number }>,
 ) => {
-  const response = await axios.post("/api/complete-upload", {
+  // CHANGE FROM LOCAL HOST TO PROD
+  const backendUrl = "http://localhost:4001";
+  const response = await axios.post(`${backendUrl}/api/complete-upload`, {
     fileName,
     uploadId,
     parts,

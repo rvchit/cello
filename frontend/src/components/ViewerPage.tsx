@@ -1,8 +1,9 @@
 import React from "react";
 import { Annotorious } from "@annotorious/react";
 import ImageViewer from "./OSDviewer";
-import FileUpload from "./FileUpload";
+//import FileUpload from "./FileUpload";
 import "@annotorious/react/annotorious-react.css";
+import Sidebar from "./sidebar";
 
 interface ViewerPageProps {
   selectedImageId?: string;
@@ -16,8 +17,12 @@ const ViewerPage: React.FC<ViewerPageProps> = ({
   return (
     <Annotorious>
       <div className="viewer-page">
+        {/* ImageViewer component */}
         <ImageViewer imageId={selectedImageId} />
-        <FileUpload onImageSelect={setSelectedImageId} />
+
+        {/* Sidebar component*/}
+        <Sidebar onImageSelect={setSelectedImageId} />
+
       </div>
     </Annotorious>
   );
