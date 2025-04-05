@@ -38,6 +38,8 @@ Hist-Viewer offers specialized tools for professionals in medical and scientific
 - User-friendly interface with commenting and annotation tools for collaborative research.
 - Integration with AWS S3 for secure image storage and retrieval.
 - Scalable architecture, compatible with PostgreSQL and Prisma ORM for database operations.
+  <img width="766" alt="image" src="https://github.com/user-attachments/assets/50ee83eb-5885-4a70-8618-8ca38da830eb" />
+
 
 ---
 
